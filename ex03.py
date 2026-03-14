@@ -1,4 +1,3 @@
-
 """
     Complexidade temporal: O(log N)
     O expoente é dividido pela metade a cada chamada recursiva.
