@@ -1,14 +1,3 @@
-""" 
-Resultado:
-    Ordenado: [1, 2, 3, 4, 5]
-    Comparações: 18 - Cópias: 12    
-    Ordem invertida: [1, 2, 3, 4, 5]
-    Comparações: 16 - Cópias: 12    
-    Ordem aleatória: [1, 2, 3, 4, 5]
-    Comparações: 12 - Cópias: 12
-Arrays ordenados ou invertidos degradam o desempenho do quicksort, como o pivô é o último elemento,
-ele produz partições muito desbalanceadas. Arrays aleatórios tendem a gerar partições mais equilibradas, reduzindo o número de comparações.
-"""
 comparacoes = 0
 copias = 0
 def trocar(array, i, j):
@@ -45,23 +34,32 @@ def quicksort(array, inicio=0, fim=None):
         index_pivo = particionar(array, inicio, fim)
         quicksort(array, inicio, index_pivo - 1)
         quicksort(array, index_pivo + 1, fim)
-def testar(array):
+def quickselect(array, k, inicio=0, fim=None):
+    if fim is None:
+        fim = len(array) - 1
+    index_pivo = particionar(array, inicio, fim)
+    if index_pivo == k:
+        return array[index_pivo]
+    if k < index_pivo:
+        return quickselect(array, k, inicio, index_pivo - 1)
+    return quickselect(array, k, index_pivo + 1, fim)
+def testar_quicksort(array):
     global comparacoes, copias
     comparacoes = 0
     copias = 0
     quicksort(array)
 
+def testar_quickselect(array, k):
+    global comparacoes, copias
+    comparacoes = 0
+    copias = 0
+    quickselect(array, k)
+
 array = [1,2,3,4,5]
-testar(array)
-print(f"Ordenado: {array}")
+testar_quicksort(array)
+print(f"Ordem aleatória: {array}")
 print(f"Comparações: {comparacoes} - Cópias: {copias}")
-
-array = [5,4,3,2,1]
-testar(array)
-print(f"Ordem invertida: {array}")
-print(f"Comparações: {comparacoes} - Cópias: {copias}")
-
-array = [3,2,5,1,4]
-testar(array)
+array = [1,2,3,4,5]
+testar_quickselect(array, len(array) // 2)
 print(f"Ordem aleatória: {array}")
 print(f"Comparações: {comparacoes} - Cópias: {copias}")
